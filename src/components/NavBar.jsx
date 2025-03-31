@@ -7,8 +7,6 @@ function NavBar() {
     const navigate = useNavigate();
     const {isAuth, logout} = useContext(AuthContext);
 
-    console.log('Is de gebruiker ingelogd?', isAuth);
-
     return (
         <nav>
             <Link to="/">
