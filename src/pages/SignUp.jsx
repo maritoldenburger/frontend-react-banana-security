@@ -1,12 +1,29 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, {useContext} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import {useForm} from "react-hook-form";
+import axios from "axios";
+import {AuthContext} from "../context/AuthContext";
 
 function SignUp() {
     const {register, handleSubmit} = useForm();
+    const navigate = useNavigate();
+    const {login} = useContext(AuthContext);
 
-    function onSubmit(data) {
+    const onSubmit = async (data) => {
         console.log(data);
+        try {
+            const response = await axios.post("http://localhost:3000/register", {
+                email: data.email,
+                password: data.password,
+                username: data.username,
+            });
+            if (response.status === 200) {
+                login(response.data.accessToken);
+            }
+            navigate("/signin");
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
